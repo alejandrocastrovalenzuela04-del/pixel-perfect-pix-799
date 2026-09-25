@@ -14,8 +14,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMisActividadesRouteImport } from './routes/_authenticated/mis-actividades'
+import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
 import { Route as AuthenticatedEmpresasIndexRouteImport } from './routes/_authenticated/empresas.index'
 import { Route as AuthenticatedEmpresasEmpresaIdIndexRouteImport } from './routes/_authenticated/empresas.$empresaId.index'
+import { Route as AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport } from './routes/_authenticated/empresas.$empresaId.periodos.$periodoId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -42,6 +44,11 @@ const AuthenticatedMisActividadesRoute =
     path: '/mis-actividades',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedUsuariosRoute = AuthenticatedUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEmpresasIndexRoute =
   AuthenticatedEmpresasIndexRouteImport.update({
     id: '/empresas/',
@@ -54,22 +61,32 @@ const AuthenticatedEmpresasEmpresaIdIndexRoute =
     path: '/empresas/$empresaId/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute =
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport.update({
+    id: '/empresas/$empresaId/periodos/$periodoId',
+    path: '/empresas/$empresaId/periodos/$periodoId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
   '/empresas/': typeof AuthenticatedEmpresasIndexRoute
   '/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
   '/empresas': typeof AuthenticatedEmpresasIndexRoute
   '/empresas/$empresaId': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +95,10 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
   '/_authenticated/empresas/': typeof AuthenticatedEmpresasIndexRoute
   '/_authenticated/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/_authenticated/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,16 +107,20 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/mis-actividades'
+    | '/usuarios'
     | '/empresas/'
     | '/empresas/$empresaId/'
+    | '/empresas/$empresaId/periodos/$periodoId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/dashboard'
     | '/mis-actividades'
+    | '/usuarios'
     | '/empresas'
     | '/empresas/$empresaId'
+    | '/empresas/$empresaId/periodos/$periodoId'
   id:
     | '__root__'
     | '/'
@@ -105,8 +128,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/dashboard'
     | '/_authenticated/mis-actividades'
+    | '/_authenticated/usuarios'
     | '/_authenticated/empresas/'
     | '/_authenticated/empresas/$empresaId/'
+    | '/_authenticated/empresas/$empresaId/periodos/$periodoId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMisActividadesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/usuarios': {
+      id: '/_authenticated/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof AuthenticatedUsuariosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/empresas/': {
       id: '/_authenticated/empresas/'
       path: '/empresas'
@@ -166,22 +198,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEmpresasEmpresaIdIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/empresas/$empresaId/periodos/$periodoId': {
+      id: '/_authenticated/empresas/$empresaId/periodos/$periodoId'
+      path: '/empresas/$empresaId/periodos/$periodoId'
+      fullPath: '/empresas/$empresaId/periodos/$periodoId'
+      preLoaderRoute: typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMisActividadesRoute: typeof AuthenticatedMisActividadesRoute
+  AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
   AuthenticatedEmpresasIndexRoute: typeof AuthenticatedEmpresasIndexRoute
   AuthenticatedEmpresasEmpresaIdIndexRoute: typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute: typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMisActividadesRoute: AuthenticatedMisActividadesRoute,
+  AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
   AuthenticatedEmpresasIndexRoute: AuthenticatedEmpresasIndexRoute,
   AuthenticatedEmpresasEmpresaIdIndexRoute:
     AuthenticatedEmpresasEmpresaIdIndexRoute,
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute:
+    AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
