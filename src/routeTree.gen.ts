@@ -10,33 +10,134 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMisActividadesRouteImport } from './routes/_authenticated/mis-actividades'
+import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
+import { Route as AuthenticatedEmpresasIndexRouteImport } from './routes/_authenticated/empresas.index'
+import { Route as AuthenticatedEmpresasEmpresaIdIndexRouteImport } from './routes/_authenticated/empresas.$empresaId.index'
+import { Route as AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport } from './routes/_authenticated/empresas.$empresaId.periodos.$periodoId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMisActividadesRoute =
+  AuthenticatedMisActividadesRouteImport.update({
+    id: '/mis-actividades',
+    path: '/mis-actividades',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedUsuariosRoute = AuthenticatedUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEmpresasIndexRoute =
+  AuthenticatedEmpresasIndexRouteImport.update({
+    id: '/empresas/',
+    path: '/empresas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmpresasEmpresaIdIndexRoute =
+  AuthenticatedEmpresasEmpresaIdIndexRouteImport.update({
+    id: '/empresas/$empresaId/',
+    path: '/empresas/$empresaId/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute =
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport.update({
+    id: '/empresas/$empresaId/periodos/$periodoId',
+    path: '/empresas/$empresaId/periodos/$periodoId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
+  '/empresas/': typeof AuthenticatedEmpresasIndexRoute
+  '/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
+  '/empresas': typeof AuthenticatedEmpresasIndexRoute
+  '/empresas/$empresaId': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
+  '/_authenticated/empresas/': typeof AuthenticatedEmpresasIndexRoute
+  '/_authenticated/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  '/_authenticated/empresas/$empresaId/periodos/$periodoId': typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/mis-actividades'
+    | '/usuarios'
+    | '/empresas/'
+    | '/empresas/$empresaId/'
+    | '/empresas/$empresaId/periodos/$periodoId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/mis-actividades'
+    | '/usuarios'
+    | '/empresas'
+    | '/empresas/$empresaId'
+    | '/empresas/$empresaId/periodos/$periodoId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/mis-actividades'
+    | '/_authenticated/usuarios'
+    | '/_authenticated/empresas/'
+    | '/_authenticated/empresas/$empresaId/'
+    | '/_authenticated/empresas/$empresaId/periodos/$periodoId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +149,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mis-actividades': {
+      id: '/_authenticated/mis-actividades'
+      path: '/mis-actividades'
+      fullPath: '/mis-actividades'
+      preLoaderRoute: typeof AuthenticatedMisActividadesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/usuarios': {
+      id: '/_authenticated/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof AuthenticatedUsuariosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/empresas/': {
+      id: '/_authenticated/empresas/'
+      path: '/empresas'
+      fullPath: '/empresas/'
+      preLoaderRoute: typeof AuthenticatedEmpresasIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/empresas/$empresaId/': {
+      id: '/_authenticated/empresas/$empresaId/'
+      path: '/empresas/$empresaId'
+      fullPath: '/empresas/$empresaId/'
+      preLoaderRoute: typeof AuthenticatedEmpresasEmpresaIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/empresas/$empresaId/periodos/$periodoId': {
+      id: '/_authenticated/empresas/$empresaId/periodos/$periodoId'
+      path: '/empresas/$empresaId/periodos/$periodoId'
+      fullPath: '/empresas/$empresaId/periodos/$periodoId'
+      preLoaderRoute: typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMisActividadesRoute: typeof AuthenticatedMisActividadesRoute
+  AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
+  AuthenticatedEmpresasIndexRoute: typeof AuthenticatedEmpresasIndexRoute
+  AuthenticatedEmpresasEmpresaIdIndexRoute: typeof AuthenticatedEmpresasEmpresaIdIndexRoute
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute: typeof AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMisActividadesRoute: AuthenticatedMisActividadesRoute,
+  AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
+  AuthenticatedEmpresasIndexRoute: AuthenticatedEmpresasIndexRoute,
+  AuthenticatedEmpresasEmpresaIdIndexRoute:
+    AuthenticatedEmpresasEmpresaIdIndexRoute,
+  AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute:
+    AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
