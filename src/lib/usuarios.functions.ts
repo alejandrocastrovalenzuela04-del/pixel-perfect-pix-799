@@ -5,12 +5,21 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const rolSchema = z.enum(["CEO", "SUPERVISOR", "EMPLEADO"]);
 
-async function exigirCeo(context: { supabase: ReturnType<typeof Object> } & Record<string, unknown>) {
-  const supabase = context["supabase"] as {
-    rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
+type ContextoAuth = {
+  supabase: {
+    rpc: (
+      fn: "has_role",
+      args: { _user_id: string; _role: "CEO" },
+    ) => Promise<{ data: boolean | null }>;
   };
-  const userId = context["userId"] as string;
-  const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "CEO" });
+  userId: string;
+};
+
+async function exigirCeo(context: ContextoAuth) {
+  const { data } = await context.supabase.rpc("has_role", {
+    _user_id: context.userId,
+    _role: "CEO",
+  });
   if (data !== true) throw new Error("Solo el CEO puede administrar usuarios.");
 }
 
