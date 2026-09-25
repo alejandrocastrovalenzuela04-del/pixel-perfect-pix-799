@@ -14,16 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      actividades: {
+        Row: {
+          created_at: string
+          estado: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion: string | null
+          id: string
+          registro_mensual_id: string
+          responsable_id: string | null
+          tipo: Database["public"]["Enums"]["actividad_tipo"]
+          ultima_actualizacion_por: string | null
+        }
+        Insert: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion?: string | null
+          id?: string
+          registro_mensual_id: string
+          responsable_id?: string | null
+          tipo: Database["public"]["Enums"]["actividad_tipo"]
+          ultima_actualizacion_por?: string | null
+        }
+        Update: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion?: string | null
+          id?: string
+          registro_mensual_id?: string
+          responsable_id?: string | null
+          tipo?: Database["public"]["Enums"]["actividad_tipo"]
+          ultima_actualizacion_por?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "actividades_registro_mensual_id_fkey"
+            columns: ["registro_mensual_id"]
+            isOneToOne: false
+            referencedRelation: "registros_mensuales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividades_responsable_id_fkey"
+            columns: ["responsable_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividades_ultima_actualizacion_por_fkey"
+            columns: ["ultima_actualizacion_por"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      empresas: {
+        Row: {
+          activa: boolean
+          created_at: string
+          id: string
+          nombre: string
+          regimen_fiscal: string
+          rfc: string
+        }
+        Insert: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          nombre: string
+          regimen_fiscal: string
+          rfc: string
+        }
+        Update: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          nombre?: string
+          regimen_fiscal?: string
+          rfc?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          activo: boolean
+          created_at: string
+          email: string
+          id: string
+          nombre: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          email: string
+          id: string
+          nombre: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          nombre?: string
+        }
+        Relationships: []
+      }
+      registros_mensuales: {
+        Row: {
+          anio: number
+          created_at: string
+          empresa_id: string
+          id: string
+          isr_pagado: number | null
+          iva_monto: number | null
+          iva_tipo: Database["public"]["Enums"]["iva_tipo"]
+          mes: number
+          opinion_cumplimiento:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          updated_at: string
+        }
+        Insert: {
+          anio: number
+          created_at?: string
+          empresa_id: string
+          id?: string
+          isr_pagado?: number | null
+          iva_monto?: number | null
+          iva_tipo?: Database["public"]["Enums"]["iva_tipo"]
+          mes: number
+          opinion_cumplimiento?:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          updated_at?: string
+        }
+        Update: {
+          anio?: number
+          created_at?: string
+          empresa_id?: string
+          id?: string
+          isr_pagado?: number | null
+          iva_monto?: number | null
+          iva_tipo?: Database["public"]["Enums"]["iva_tipo"]
+          mes?: number
+          opinion_cumplimiento?:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "registros_mensuales_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_active_user: { Args: { _user_id: string }; Returns: boolean }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      actividad_estado: "PENDIENTE" | "EN_PROCESO" | "REALIZADO"
+      actividad_tipo:
+        | "CONTABILIDAD_MENSUAL"
+        | "CONCILIACION_BANCARIA"
+        | "PAGOS_PROVISIONALES"
+        | "DIOT"
+      app_role: "CEO" | "SUPERVISOR" | "EMPLEADO"
+      iva_tipo: "NO_DETERMINADO" | "PAGADO" | "A_FAVOR"
+      opinion_cumplimiento: "POSITIVA" | "NEGATIVA"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +353,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      actividad_estado: ["PENDIENTE", "EN_PROCESO", "REALIZADO"],
+      actividad_tipo: [
+        "CONTABILIDAD_MENSUAL",
+        "CONCILIACION_BANCARIA",
+        "PAGOS_PROVISIONALES",
+        "DIOT",
+      ],
+      app_role: ["CEO", "SUPERVISOR", "EMPLEADO"],
+      iva_tipo: ["NO_DETERMINADO", "PAGADO", "A_FAVOR"],
+      opinion_cumplimiento: ["POSITIVA", "NEGATIVA"],
+    },
   },
 } as const
