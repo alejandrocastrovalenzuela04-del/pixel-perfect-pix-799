@@ -206,7 +206,7 @@ function DetallePeriodo() {
             const puedeEditarEstado =
               esStaff || (a.responsable_id && a.responsable_id === sesion?.userId);
             return (
-              <div key={a.id} className="grid gap-3 p-4 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+              <div key={a.id} className="grid items-start gap-3 p-4 md:grid-cols-4">
                 <div>
                   <p className="font-medium">{TIPO_LABEL[a.tipo]}</p>
                   <div className="mt-1 md:hidden">
@@ -214,7 +214,7 @@ function DetallePeriodo() {
                   </div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="min-w-0 space-y-1">
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">Estado</p>
                   {puedeEditarEstado ? (
                     <Select
@@ -242,7 +242,7 @@ function DetallePeriodo() {
                   )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="min-w-0 space-y-1">
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">
                     Responsable
                   </p>
@@ -273,7 +273,7 @@ function DetallePeriodo() {
                   )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="min-w-0 space-y-1">
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">
                     Última actualización
                   </p>
@@ -413,7 +413,7 @@ function SeccionImpuestos({ registro, editable }: { registro: Registro; editable
           </RadioGroup>
           {ivaTipo !== "NO_DETERMINADO" && (
             <div className="max-w-xs space-y-2">
-              <Label htmlFor="iva-monto">Monto de {IVA_LABEL[ivaTipo].toLowerCase()}</Label>
+              <Label htmlFor="iva-monto">Monto de {IVA_LABEL[ivaTipo]}</Label>
               <Input
                 id="iva-monto"
                 type="number"
