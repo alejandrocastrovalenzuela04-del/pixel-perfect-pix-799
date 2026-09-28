@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedActividadesRouteImport } from './routes/_authenticated/actividades'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMisActividadesRouteImport } from './routes/_authenticated/mis-actividades'
 import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
@@ -33,6 +34,12 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedActividadesRoute =
+  AuthenticatedActividadesRouteImport.update({
+    id: '/actividades',
+    path: '/actividades',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -71,6 +78,7 @@ const AuthenticatedEmpresasEmpresaIdPeriodosPeriodoIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/actividades': typeof AuthenticatedActividadesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
@@ -81,6 +89,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/actividades': typeof AuthenticatedActividadesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
@@ -93,6 +102,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/actividades': typeof AuthenticatedActividadesRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/mis-actividades': typeof AuthenticatedMisActividadesRoute
   '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/actividades'
     | '/dashboard'
     | '/mis-actividades'
     | '/usuarios'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/actividades'
     | '/dashboard'
     | '/mis-actividades'
     | '/usuarios'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/actividades'
     | '/_authenticated/dashboard'
     | '/_authenticated/mis-actividades'
     | '/_authenticated/usuarios'
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/actividades': {
+      id: '/_authenticated/actividades'
+      path: '/actividades'
+      fullPath: '/actividades'
+      preLoaderRoute: typeof AuthenticatedActividadesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -209,6 +229,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedActividadesRoute: typeof AuthenticatedActividadesRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMisActividadesRoute: typeof AuthenticatedMisActividadesRoute
   AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
@@ -218,6 +239,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedActividadesRoute: AuthenticatedActividadesRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMisActividadesRoute: AuthenticatedMisActividadesRoute,
   AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,

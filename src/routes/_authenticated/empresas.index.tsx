@@ -52,7 +52,7 @@ type FormEmpresa = { id?: string; nombre: string; rfc: string; regimen_fiscal: s
 const formVacio: FormEmpresa = { nombre: "", rfc: "", regimen_fiscal: "" };
 
 function Empresas() {
-  const { esStaff } = useAuth();
+  const { esCeo: esStaff } = useAuth();
   const queryClient = useQueryClient();
   const [busqueda, setBusqueda] = useState("");
   const [form, setForm] = useState<FormEmpresa | null>(null);
