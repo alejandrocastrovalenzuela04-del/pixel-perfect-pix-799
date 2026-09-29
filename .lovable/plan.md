@@ -1,33 +1,33 @@
 # Actividades por empresa, historial y reportes del CEO
 
-Se conserva el diseño, la navegación, el login, los roles, el dashboard y las páginas de periodos actuales. Los datos existentes (4 actividades de septiembre 2026) se migran, no se borran.
+Se conserva el diseño, la navegación, el login, los roles, el dashboard y las páginas de periodos actuales. Los datos existentes (incluidas las 4 actividades de septiembre 2026) se migran una sola vez al nuevo esquema: no se borran ni se duplican, y los datos que no existen hoy quedan vacíos (sin inventar información).
 
 ## Lo que verás
 
 **1. Acceso de usuarios a empresas**
-- En "Usuarios" (solo CEO) cada persona tendrá una casilla por empresa para darle o quitarle acceso.
-- CEO y Supervisor ven todas las empresas. El empleado ve solo las empresas a las que tiene acceso, aunque no tenga actividades asignadas.
+- En "Usuarios", solo el CEO administra el acceso: cada persona tendrá una casilla por empresa para dar o quitar acceso.
+- CEO y Supervisor ven todas las empresas. El empleado ve solo las empresas a las que tiene acceso, aunque no tenga ninguna actividad asignada. El acceso nunca depende de la asignación de actividades.
 
 **2. Pantalla de la empresa (el espacio de trabajo)**
-- Arriba: nombre, régimen fiscal y RFC.
-- Resumen: Total, Pendientes, En proceso, Realizadas (se actualiza con los filtros).
+- Arriba: nombre de la empresa, régimen fiscal y RFC.
+- Resumen: Total, Pendientes, En proceso, Realizadas (responde a los filtros activos).
 - Sección "Actividades" con el botón **+ Agregar actividad** y la tabla principal:
   Actividad | Estado | Responsable | Fecha de realización | Periodo correspondiente | Información principal | Acciones (Ver / Revertir).
-- Filtros por columna que se pueden combinar: actividad, estado, responsable, periodo, rango de fecha de realización, y "Limpiar filtros".
-- La lista de periodos mensuales que ya existe se queda debajo, sin cambios.
+- Filtros por columna que se pueden combinar: actividad, estado, responsable, periodo (mes/año), fecha o rango de fecha de realización, y "Limpiar filtros".
+- La lista de periodos mensuales actual se conserva debajo. Las nuevas actividades no dependen de ella: se puede crear "IVA — Diciembre 2025" sin crear antes una página de periodo.
 
 **3. Agregar actividad (ventana con formulario que cambia según el tipo)**
-- Tipos: Contabilidad mensual, Conciliación bancaria, Pagos provisionales, DIOT, IVA, ISR, Declaración anual, Opinión de cumplimiento, Revisión de CFDI, Nómina, Pólizas contables, Estados financieros, Otra. Se pueden agregar más tipos después.
-- Campos generales: tipo, estado, periodo correspondiente (mes y año, cualquiera), comentarios.
+- Primer campo, tipo de actividad: Contabilidad mensual, Conciliación bancaria, Pagos provisionales, DIOT, IVA, ISR, Declaración anual, Opinión de cumplimiento, Revisión de CFDI, Nómina, Pólizas contables, Estados financieros, Otra. Se pueden agregar más tipos y campos después.
+- Campos generales: tipo, periodo correspondiente (cualquier mes y año, p. ej. Enero 2024) y comentarios. Estado inicial siempre Pendiente, sin fecha de realización. Fecha de inicio, fecha de realización, última modificación y responsable los registra el sistema.
 - Campos específicos solo cuando aplican:
-  - IVA: IVA pagado **o** IVA a favor (uno solo, monto).
+  - IVA: IVA pagado **o** IVA a favor (nunca ambos, monto).
   - ISR: ISR pagado (monto).
-  - Pagos provisionales: ISR pagado + IVA pagado o a favor.
-  - Opinión de cumplimiento: resultado (positiva/negativa) y fecha.
-  - Conciliación bancaria: banco/cuenta y saldo conciliado.
+  - Pagos provisionales: ISR pagado + IVA pagado o IVA a favor (excluyentes).
+  - Opinión de cumplimiento: resultado (positiva/negativa), fecha correspondiente y comentarios.
+  - Conciliación bancaria: banco, cuenta y saldo conciliado.
   - Otra: descripción.
 - Los montos se guardan como números y se muestran como moneda.
-- Se pueden tener "IVA — Agosto 2025" e "IVA — Agosto 2026" al mismo tiempo: cada actividad es un registro propio.
+- Cada actividad es un registro propio con su ID: pueden existir a la vez "IVA — Agosto 2025", "IVA — Agosto 2026" e "IVA — Septiembre 2026".
 
 **4. Estados, fechas y responsable automático**
 - Al cambiar a "En proceso": responsable = quien hizo el cambio, fecha de inicio = hoy.
