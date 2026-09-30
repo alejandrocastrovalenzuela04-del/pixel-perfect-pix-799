@@ -15,6 +15,13 @@
       "when": 1790620872166,
       "tag": "0001_empresas_solo_ceo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790735209482,
+      "tag": "0002_actividades_por_empresa_historial",
+      "breakpoints": true
     }
   ]
 }
