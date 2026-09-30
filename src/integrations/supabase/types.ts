@@ -14,38 +14,201 @@ export type Database = {
   }
   public: {
     Tables: {
-      actividades: {
+      actividad_historial: {
         Row: {
-          created_at: string
-          estado: Database["public"]["Enums"]["actividad_estado"]
-          fecha_actualizacion: string | null
+          accion: string
+          actividad_id: string
+          detalle: Json | null
+          empresa_id: string
+          estado_anterior:
+            | Database["public"]["Enums"]["actividad_estado"]
+            | null
+          estado_nuevo: Database["public"]["Enums"]["actividad_estado"] | null
+          fecha: string
           id: string
-          registro_mensual_id: string
-          responsable_id: string | null
-          tipo: Database["public"]["Enums"]["actividad_tipo"]
-          ultima_actualizacion_por: string | null
+          revierte_id: string | null
+          snapshot_anterior: Json | null
+          usuario_id: string | null
         }
         Insert: {
-          created_at?: string
-          estado?: Database["public"]["Enums"]["actividad_estado"]
-          fecha_actualizacion?: string | null
+          accion: string
+          actividad_id: string
+          detalle?: Json | null
+          empresa_id: string
+          estado_anterior?:
+            | Database["public"]["Enums"]["actividad_estado"]
+            | null
+          estado_nuevo?: Database["public"]["Enums"]["actividad_estado"] | null
+          fecha?: string
           id?: string
-          registro_mensual_id: string
-          responsable_id?: string | null
-          tipo: Database["public"]["Enums"]["actividad_tipo"]
-          ultima_actualizacion_por?: string | null
+          revierte_id?: string | null
+          snapshot_anterior?: Json | null
+          usuario_id?: string | null
         }
         Update: {
-          created_at?: string
-          estado?: Database["public"]["Enums"]["actividad_estado"]
-          fecha_actualizacion?: string | null
+          accion?: string
+          actividad_id?: string
+          detalle?: Json | null
+          empresa_id?: string
+          estado_anterior?:
+            | Database["public"]["Enums"]["actividad_estado"]
+            | null
+          estado_nuevo?: Database["public"]["Enums"]["actividad_estado"] | null
+          fecha?: string
           id?: string
-          registro_mensual_id?: string
-          responsable_id?: string | null
-          tipo?: Database["public"]["Enums"]["actividad_tipo"]
-          ultima_actualizacion_por?: string | null
+          revierte_id?: string | null
+          snapshot_anterior?: Json | null
+          usuario_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "actividad_historial_actividad_id_fkey"
+            columns: ["actividad_id"]
+            isOneToOne: false
+            referencedRelation: "actividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividad_historial_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividad_historial_revierte_id_fkey"
+            columns: ["revierte_id"]
+            isOneToOne: false
+            referencedRelation: "actividad_historial"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividad_historial_usuario_id_fkey"
+            columns: ["usuario_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      actividad_tipos: {
+        Row: {
+          activo: boolean
+          clave: string
+          nombre: string
+          orden: number
+        }
+        Insert: {
+          activo?: boolean
+          clave: string
+          nombre: string
+          orden?: number
+        }
+        Update: {
+          activo?: boolean
+          clave?: string
+          nombre?: string
+          orden?: number
+        }
+        Relationships: []
+      }
+      actividades: {
+        Row: {
+          comentarios: string | null
+          creado_por: string | null
+          created_at: string
+          datos: Json
+          empresa_id: string
+          estado: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion: string | null
+          fecha_inicio: string | null
+          fecha_realizacion: string | null
+          id: string
+          isr_pagado: number | null
+          iva_a_favor: number | null
+          iva_pagado: number | null
+          opinion_fecha: string | null
+          opinion_resultado:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          periodo_anio: number
+          periodo_mes: number
+          registro_mensual_id: string | null
+          responsable_id: string | null
+          tipo: Database["public"]["Enums"]["actividad_tipo"] | null
+          tipo_clave: string
+          ultima_actualizacion_por: string | null
+          updated_at: string
+        }
+        Insert: {
+          comentarios?: string | null
+          creado_por?: string | null
+          created_at?: string
+          datos?: Json
+          empresa_id: string
+          estado?: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion?: string | null
+          fecha_inicio?: string | null
+          fecha_realizacion?: string | null
+          id?: string
+          isr_pagado?: number | null
+          iva_a_favor?: number | null
+          iva_pagado?: number | null
+          opinion_fecha?: string | null
+          opinion_resultado?:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          periodo_anio: number
+          periodo_mes: number
+          registro_mensual_id?: string | null
+          responsable_id?: string | null
+          tipo?: Database["public"]["Enums"]["actividad_tipo"] | null
+          tipo_clave: string
+          ultima_actualizacion_por?: string | null
+          updated_at?: string
+        }
+        Update: {
+          comentarios?: string | null
+          creado_por?: string | null
+          created_at?: string
+          datos?: Json
+          empresa_id?: string
+          estado?: Database["public"]["Enums"]["actividad_estado"]
+          fecha_actualizacion?: string | null
+          fecha_inicio?: string | null
+          fecha_realizacion?: string | null
+          id?: string
+          isr_pagado?: number | null
+          iva_a_favor?: number | null
+          iva_pagado?: number | null
+          opinion_fecha?: string | null
+          opinion_resultado?:
+            | Database["public"]["Enums"]["opinion_cumplimiento"]
+            | null
+          periodo_anio?: number
+          periodo_mes?: number
+          registro_mensual_id?: string | null
+          responsable_id?: string | null
+          tipo?: Database["public"]["Enums"]["actividad_tipo"] | null
+          tipo_clave?: string
+          ultima_actualizacion_por?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "actividades_creado_por_fkey"
+            columns: ["creado_por"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "actividades_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "actividades_registro_mensual_id_fkey"
             columns: ["registro_mensual_id"]
@@ -61,8 +224,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "actividades_tipo_clave_fkey"
+            columns: ["tipo_clave"]
+            isOneToOne: false
+            referencedRelation: "actividad_tipos"
+            referencedColumns: ["clave"]
+          },
+          {
             foreignKeyName: "actividades_ultima_actualizacion_por_fkey"
             columns: ["ultima_actualizacion_por"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      empresa_usuarios: {
+        Row: {
+          created_at: string
+          empresa_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          empresa_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          empresa_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "empresa_usuarios_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "empresa_usuarios_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -216,6 +422,14 @@ export type Database = {
       }
       is_active_user: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      puede_ver_empresa: {
+        Args: { _empresa_id: string; _user_id: string }
+        Returns: boolean
+      }
+      revertir_actividad: {
+        Args: { _actividad_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       actividad_estado: "PENDIENTE" | "EN_PROCESO" | "REALIZADO"
