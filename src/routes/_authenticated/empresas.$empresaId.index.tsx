@@ -4,6 +4,7 @@ import { ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ActividadesEmpresa } from "@/components/actividades/ActividadesEmpresa";
 import { EstadoBadge } from "@/components/EstadoBadge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -119,17 +120,34 @@ function DetalleEmpresa() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">{empresa.data?.nombre ?? "Empresa"}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            RFC <span className="font-mono">{empresa.data?.rfc}</span> ·{" "}
-            {empresa.data?.regimen_fiscal}
+          <p className="mt-1 text-sm">Régimen fiscal: {empresa.data?.regimen_fiscal}</p>
+          <p className="text-sm text-muted-foreground">
+            RFC: <span className="font-mono">{empresa.data?.rfc}</span>
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Badge variant={empresa.data?.activa ? "secondary" : "outline"}>
             {empresa.data?.activa ? "Activa" : "Inactiva"}
           </Badge>
-          {esStaff && (
+        </div>
+      </header>
+
+      {empresa.isFetched && !empresa.data && (
+        <p className="panel p-4 text-sm text-muted-foreground">
+          No tienes acceso a esta empresa o no existe.
+        </p>
+      )}
+
+      {empresa.data && (
+        <ActividadesEmpresa empresaId={empresaId} empresaNombre={empresa.data.nombre} />
+      )}
+
+      <section className="space-y-6 border-t border-border pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Periodos mensuales</h2>
+          {esStaff && empresa.data && (
             <Button
+              variant="outline"
               className="gap-2"
               onClick={() => setNuevo({ mes: ahora.getMonth() + 1, anio: ahora.getFullYear() })}
             >
@@ -137,10 +155,6 @@ function DetalleEmpresa() {
             </Button>
           )}
         </div>
-      </header>
-
-      <section className="space-y-6">
-        <h2 className="text-lg font-semibold">Periodos</h2>
         {[...porAnio.entries()].map(([anio, registros]) => (
           <div key={anio} className="space-y-3">
             <p className="text-sm font-semibold text-muted-foreground">{anio}</p>
