@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { AccesoEmpresas } from "@/components/AccesoEmpresas";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -60,6 +61,7 @@ function Usuarios() {
   const actualizar = useServerFn(actualizarUsuario);
   const [nuevo, setNuevo] = useState<FormNuevo | null>(null);
   const [edicion, setEdicion] = useState<FormEdicion | null>(null);
+  const [acceso, setAcceso] = useState<{ id: string; nombre: string; rol: string } | null>(null);
 
   const usuarios = useQuery({
     queryKey: ["usuarios"],
@@ -151,15 +153,24 @@ function Usuarios() {
                     {formatoFechaHora(u.created_at)}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setEdicion({ id: u.id, nombre: u.nombre, activo: u.activo, rol })
-                      }
-                    >
-                      Editar
-                    </Button>
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setAcceso({ id: u.id, nombre: u.nombre, rol })}
+                      >
+                        Empresas
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setEdicion({ id: u.id, nombre: u.nombre, activo: u.activo, rol })
+                        }
+                      >
+                        Editar
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -292,6 +303,8 @@ function Usuarios() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AccesoEmpresas usuario={acceso} onClose={() => setAcceso(null)} />
     </div>
   );
 }
