@@ -78,7 +78,7 @@ type Registro = {
 
 function DetallePeriodo() {
   const { empresaId, periodoId } = Route.useParams();
-  const { sesion, esStaff } = useAuth();
+  const { sesion, esStaff, esCeo } = useAuth();
   const queryClient = useQueryClient();
 
   const registro = useQuery({
@@ -164,7 +164,7 @@ function DetallePeriodo() {
             {r?.empresas?.regimen_fiscal}
           </p>
         </div>
-        {esStaff && r && (
+        {esCeo && r && (
           <Button
             variant="outline"
             className="gap-2"
