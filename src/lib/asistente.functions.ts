@@ -85,7 +85,8 @@ Reglas:
 - No inventes cifras, fechas ni nombres. Si un dato no está, di explícitamente que no está registrado.
 - Distingue "periodo correspondiente" (a qué mes pertenece la actividad) de "fecha de realización" (cuándo se completó).
 - Formatea montos como pesos mexicanos ($15,400.00). Fechas en formato dd/mm/aaaa, hora de Mazatlán.
-- No des asesoría fiscal definitiva; limítate a describir los datos.`;
+- No des asesoría fiscal definitiva; limítate a describir los datos.
+- Responde en texto plano, sin markdown (sin asteriscos ni almohadillas); usa guiones para listas.`;
 
     const prompt = `Datos:\n${JSON.stringify(contexto)}\n\nPregunta del CEO: ${data.pregunta}`;
 
