@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { ActividadFila } from "@/lib/actividades";
 
 const entrada = z.object({
   mes: z.number().int().min(1).max(12),
@@ -52,12 +53,12 @@ export const preguntarAsistente = createServerFn({ method: "POST" })
     const nombre = new Map((per.data ?? []).map((p) => [p.id, p.nombre]));
     const tipo = new Map((tip.data ?? []).map((t) => [t.clave, t.nombre]));
     const empresa = new Map((emp.data ?? []).map((e) => [e.id, e.nombre]));
-    const limpiar = (a: Record<string, unknown>) => ({
-      empresa: empresa.get(a.empresa_id as string) ?? "Empresa",
-      actividad: tipo.get(a.tipo_clave as string) ?? a.tipo_clave,
+    const limpiar = (a: ActividadFila) => ({
+      empresa: empresa.get(a.empresa_id ?? "Empresa",
+      actividad: tipo.get(a.tipo_clave ?? a.tipo_clave,
       estado: a.estado,
-      periodo_correspondiente: `${MESES[(a.periodo_mes as number) - 1]} ${a.periodo_anio}`,
-      responsable: a.responsable_id ? nombre.get(a.responsable_id as string) ?? "Usuario" : null,
+      periodo_correspondiente: `${MESES[a.periodo_mes - 1]} ${a.periodo_anio}`,
+      responsable: a.responsable_id ? nombre.get(a.responsable_id ?? "Usuario" : null,
       fecha_inicio: a.fecha_inicio,
       fecha_realizacion: a.fecha_realizacion,
       ultima_modificacion: a.updated_at,
@@ -75,8 +76,8 @@ export const preguntarAsistente = createServerFn({ method: "POST" })
       zona_horaria: "America/Mazatlan",
       empresas: emp.data ?? [],
       datos_fiscales_del_periodo_mensual: (reg.data ?? []).map((r) => ({ ...r, empresa: empresa.get(r.empresa_id) })),
-      actividades_correspondientes_al_periodo: (ap.data ?? []).map(limpiar),
-      actividades_realizadas_en_el_mes: (ar.data ?? []).map(limpiar),
+      actividades_correspondientes_al_periodo: ((ap.data ?? []) as unknown as ActividadFila[]).map(limpiar),
+      actividades_realizadas_en_el_mes: ((ar.data ?? []) as unknown as ActividadFila[]).map(limpiar),
     };
 
     const system = `Eres el asistente interno de un despacho contable mexicano. Respondes al CEO en español, de forma breve y clara (máximo ~250 palabras), usando ÚNICAMENTE los datos JSON proporcionados.
