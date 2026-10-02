@@ -54,11 +54,11 @@ export const preguntarAsistente = createServerFn({ method: "POST" })
     const tipo = new Map((tip.data ?? []).map((t) => [t.clave, t.nombre]));
     const empresa = new Map((emp.data ?? []).map((e) => [e.id, e.nombre]));
     const limpiar = (a: ActividadFila) => ({
-      empresa: empresa.get(a.empresa_id ?? "Empresa",
-      actividad: tipo.get(a.tipo_clave ?? a.tipo_clave,
+      empresa: empresa.get(a.empresa_id) ?? "Empresa",
+      actividad: tipo.get(a.tipo_clave) ?? a.tipo_clave,
       estado: a.estado,
       periodo_correspondiente: `${MESES[a.periodo_mes - 1]} ${a.periodo_anio}`,
-      responsable: a.responsable_id ? nombre.get(a.responsable_id ?? "Usuario" : null,
+      responsable: a.responsable_id ? nombre.get(a.responsable_id) ?? "Usuario" : null,
       fecha_inicio: a.fecha_inicio,
       fecha_realizacion: a.fecha_realizacion,
       ultima_modificacion: a.updated_at,
