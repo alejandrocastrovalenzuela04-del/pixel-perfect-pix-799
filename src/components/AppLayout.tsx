@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Building2, ClipboardList, LayoutDashboard, ListChecks, LogOut, Menu, Users } from "lucide-react";
+import { Building2, ClipboardList, FileText, LayoutDashboard, ListChecks, LogOut, Menu, Users } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
     { to: "/actividades", label: "Todas las actividades", icon: ClipboardList, visible: true },
     { to: "/empresas", label: "Empresas", icon: Building2, visible: true },
     { to: "/mis-actividades", label: "Mis actividades", icon: ListChecks, visible: esEmpleado },
+    { to: "/reportes", label: "Reportes", icon: FileText, visible: esCeo },
     { to: "/usuarios", label: "Usuarios", icon: Users, visible: esCeo },
   ].filter((e) => e.visible);
 

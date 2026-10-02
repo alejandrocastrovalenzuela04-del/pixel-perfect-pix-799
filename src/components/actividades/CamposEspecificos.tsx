@@ -63,12 +63,12 @@ export function payloadEspecifico(tipo: string, f: FormEspecifico) {
   const ivaValor = tiene("iva") && f.ivaModo !== "NINGUNO" ? monto(f.ivaMonto, "IVA") : null;
   const datos: Record<string, unknown> = {};
   if (tiene("conciliacion")) {
-    if (f.banco.trim()) datos.banco = f.banco.trim();
-    if (f.cuenta.trim()) datos.cuenta = f.cuenta.trim();
+    if (f.banco.trim()) datos["banco"] = f.banco.trim();
+    if (f.cuenta.trim()) datos["cuenta"] = f.cuenta.trim();
     const s = monto(f.saldo, "Saldo conciliado");
-    if (s !== null) datos.saldo_conciliado = s;
+    if (s !== null) datos["saldo_conciliado"] = s;
   }
-  if (tiene("descripcion") && f.descripcion.trim()) datos.descripcion = f.descripcion.trim();
+  if (tiene("descripcion") && f.descripcion.trim()) datos["descripcion"] = f.descripcion.trim();
   return {
     isr_pagado: tiene("isr") ? monto(f.isr, "ISR") : null,
     iva_pagado: f.ivaModo === "PAGADO" ? ivaValor : null,
@@ -102,7 +102,7 @@ export function CamposEspecificos({
       {campos.includes("isr") && (
         <div className="space-y-2">
           <Label htmlFor="f-isr">ISR pagado</Label>
-          <Input id="f-isr" type="number" min="0" step="0.01" disabled={disabled}
+          <Input id="f-isr" type="number" min="0" step="0.01" disabled={!!disabled}
             value={valor.isr} onChange={(e) => set({ isr: e.target.value })} placeholder="0.00" />
         </div>
       )}
@@ -110,7 +110,7 @@ export function CamposEspecificos({
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-2">
             <Label>IVA</Label>
-            <Select value={valor.ivaModo} disabled={disabled}
+            <Select value={valor.ivaModo} disabled={!!disabled}
               onValueChange={(v) => set({ ivaModo: v as FormEspecifico["ivaModo"] })}>
               <SelectTrigger aria-label="Tipo de IVA"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -123,7 +123,7 @@ export function CamposEspecificos({
           {valor.ivaModo !== "NINGUNO" && (
             <div className="space-y-2">
               <Label htmlFor="f-iva">{valor.ivaModo === "PAGADO" ? "Monto IVA pagado" : "Monto IVA a favor"}</Label>
-              <Input id="f-iva" type="number" min="0" step="0.01" disabled={disabled}
+              <Input id="f-iva" type="number" min="0" step="0.01" disabled={!!disabled}
                 value={valor.ivaMonto} onChange={(e) => set({ ivaMonto: e.target.value })} placeholder="0.00" />
             </div>
           )}
@@ -133,7 +133,7 @@ export function CamposEspecificos({
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-2">
             <Label>Resultado</Label>
-            <Select value={valor.opinion} disabled={disabled}
+            <Select value={valor.opinion} disabled={!!disabled}
               onValueChange={(v) => set({ opinion: v as FormEspecifico["opinion"] })}>
               <SelectTrigger aria-label="Resultado de la opinión"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -145,7 +145,7 @@ export function CamposEspecificos({
           </div>
           <div className="space-y-2">
             <Label htmlFor="f-opf">Fecha de la opinión</Label>
-            <Input id="f-opf" type="date" disabled={disabled}
+            <Input id="f-opf" type="date" disabled={!!disabled}
               value={valor.opinionFecha} onChange={(e) => set({ opinionFecha: e.target.value })} />
           </div>
         </div>
@@ -154,15 +154,15 @@ export function CamposEspecificos({
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="space-y-2">
             <Label htmlFor="f-banco">Banco</Label>
-            <Input id="f-banco" disabled={disabled} value={valor.banco} onChange={(e) => set({ banco: e.target.value })} />
+            <Input id="f-banco" disabled={!!disabled} value={valor.banco} onChange={(e) => set({ banco: e.target.value })} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="f-cuenta">Cuenta</Label>
-            <Input id="f-cuenta" disabled={disabled} value={valor.cuenta} onChange={(e) => set({ cuenta: e.target.value })} />
+            <Input id="f-cuenta" disabled={!!disabled} value={valor.cuenta} onChange={(e) => set({ cuenta: e.target.value })} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="f-saldo">Saldo conciliado</Label>
-            <Input id="f-saldo" type="number" step="0.01" min="0" disabled={disabled}
+            <Input id="f-saldo" type="number" step="0.01" min="0" disabled={!!disabled}
               value={valor.saldo} onChange={(e) => set({ saldo: e.target.value })} />
           </div>
         </div>
@@ -170,7 +170,7 @@ export function CamposEspecificos({
       {campos.includes("descripcion") && (
         <div className="space-y-2">
           <Label htmlFor="f-desc">Descripción</Label>
-          <Input id="f-desc" disabled={disabled} value={valor.descripcion} onChange={(e) => set({ descripcion: e.target.value })} />
+          <Input id="f-desc" disabled={!!disabled} value={valor.descripcion} onChange={(e) => set({ descripcion: e.target.value })} />
         </div>
       )}
     </div>
