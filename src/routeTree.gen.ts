@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedActividadesRouteImport } from './routes/_authenticated/actividades'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMisActividadesRouteImport } from './routes/_authenticated/mis-actividades'
+import { Route as AuthenticatedReportesRouteImport } from './routes/_authenticated/reportes'
 import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
 import { Route as AuthenticatedEmpresasIndexRouteImport } from './routes/_authenticated/empresas.index'
 import { Route as AuthenticatedEmpresasEmpresaIdIndexRouteImport } from './routes/_authenticated/empresas.$empresaId.index'
@@ -51,6 +52,11 @@ const AuthenticatedMisActividadesRoute =
     path: '/mis-actividades',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReportesRoute = AuthenticatedReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedUsuariosRoute = AuthenticatedUsuariosRouteImport.update({
   id: '/usuarios',
   path: '/usuarios',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/actividades': typeof AuthenticatedActividadesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/reportes': typeof AuthenticatedReportesRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
   '/empresas/': typeof AuthenticatedEmpresasIndexRoute
   '/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/actividades': typeof AuthenticatedActividadesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/reportes': typeof AuthenticatedReportesRoute
   '/usuarios': typeof AuthenticatedUsuariosRoute
   '/empresas': typeof AuthenticatedEmpresasIndexRoute
   '/empresas/$empresaId': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/_authenticated/actividades': typeof AuthenticatedActividadesRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/mis-actividades': typeof AuthenticatedMisActividadesRoute
+  '/_authenticated/reportes': typeof AuthenticatedReportesRoute
   '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
   '/_authenticated/empresas/': typeof AuthenticatedEmpresasIndexRoute
   '/_authenticated/empresas/$empresaId/': typeof AuthenticatedEmpresasEmpresaIdIndexRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/actividades'
     | '/dashboard'
     | '/mis-actividades'
+    | '/reportes'
     | '/usuarios'
     | '/empresas/'
     | '/empresas/$empresaId/'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/actividades'
     | '/dashboard'
     | '/mis-actividades'
+    | '/reportes'
     | '/usuarios'
     | '/empresas'
     | '/empresas/$empresaId'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/_authenticated/actividades'
     | '/_authenticated/dashboard'
     | '/_authenticated/mis-actividades'
+    | '/_authenticated/reportes'
     | '/_authenticated/usuarios'
     | '/_authenticated/empresas/'
     | '/_authenticated/empresas/$empresaId/'
@@ -197,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMisActividadesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reportes': {
+      id: '/_authenticated/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof AuthenticatedReportesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/usuarios': {
       id: '/_authenticated/usuarios'
       path: '/usuarios'
@@ -232,6 +251,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedActividadesRoute: typeof AuthenticatedActividadesRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMisActividadesRoute: typeof AuthenticatedMisActividadesRoute
+  AuthenticatedReportesRoute: typeof AuthenticatedReportesRoute
   AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
   AuthenticatedEmpresasIndexRoute: typeof AuthenticatedEmpresasIndexRoute
   AuthenticatedEmpresasEmpresaIdIndexRoute: typeof AuthenticatedEmpresasEmpresaIdIndexRoute
@@ -242,6 +262,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedActividadesRoute: AuthenticatedActividadesRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMisActividadesRoute: AuthenticatedMisActividadesRoute,
+  AuthenticatedReportesRoute: AuthenticatedReportesRoute,
   AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
   AuthenticatedEmpresasIndexRoute: AuthenticatedEmpresasIndexRoute,
   AuthenticatedEmpresasEmpresaIdIndexRoute:
