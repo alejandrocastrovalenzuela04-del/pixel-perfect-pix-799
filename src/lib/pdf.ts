@@ -127,3 +127,96 @@ export function generarReportePdf(datos: DatosReporte) {
   const nombre = `reporte-${datos.empresa.rfc}-${datos.periodo.anio}-${String(datos.periodo.mes).padStart(2, "0")}.pdf`;
   doc.save(nombre);
 }
+
+export type FilaReporte = {
+  actividad: string;
+  estado: ActividadEstado;
+  responsable: string | null;
+  fechaRealizacion: string | null;
+  periodo: string;
+  info: string;
+};
+
+export type DatosReporteActividades = {
+  despacho: string;
+  titulo: string;
+  tipoReporte: string;
+  periodoConsultado: string;
+  filtros: string[];
+  empresas: {
+    nombre: string;
+    rfc: string;
+    regimen_fiscal: string;
+    filas: FilaReporte[];
+  }[];
+  nombreArchivo: string;
+};
+
+export function generarReporteActividadesPdf(datos: DatosReporteActividades) {
+  const doc = new jsPDF({ unit: "pt", format: "letter", orientation: "landscape" });
+  const margen = 40;
+  const ancho = doc.internal.pageSize.getWidth();
+  let y = margen;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(datos.despacho, margen, y);
+  y += 18;
+  doc.setFontSize(12);
+  doc.text(datos.titulo, margen, y);
+  y += 16;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.text(`Tipo de reporte: ${datos.tipoReporte}`, margen, y);
+  y += 12;
+  doc.text(`Periodo consultado: ${datos.periodoConsultado}`, margen, y);
+  y += 12;
+  doc.text(`Generado el: ${formatoFechaHora(new Date().toISOString())}`, margen, y);
+  y += 12;
+  if (datos.filtros.length) {
+    doc.text(`Filtros: ${datos.filtros.join(" · ")}`, margen, y);
+    y += 12;
+  }
+  doc.setDrawColor(200);
+  doc.line(margen, y, ancho - margen, y);
+  y += 18;
+
+  if (datos.empresas.length === 0) {
+    doc.setFontSize(10);
+    doc.text("No hay actividades que cumplan los criterios seleccionados.", margen, y);
+  }
+
+  type ConTabla = { lastAutoTable?: { finalY: number } };
+  for (const e of datos.empresas) {
+    if (y > doc.internal.pageSize.getHeight() - 100) {
+      doc.addPage();
+      y = margen;
+    }
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(e.nombre, margen, y);
+    y += 13;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text(`RFC: ${e.rfc}   ·   Régimen fiscal: ${e.regimen_fiscal}`, margen, y);
+    y += 6;
+    autoTable(doc, {
+      startY: y,
+      margin: { left: margen, right: margen },
+      head: [["Actividad", "Estado", "Responsable", "Fecha de realización", "Periodo correspondiente", "Información principal"]],
+      body: e.filas.map((f) => [
+        f.actividad,
+        ESTADO_LABEL[f.estado],
+        f.responsable ?? "No asignado",
+        f.fechaRealizacion ?? "—",
+        f.periodo,
+        f.info,
+      ]),
+      styles: { fontSize: 8.5, cellPadding: 4 },
+      headStyles: { fillColor: [46, 58, 84], textColor: 255 },
+    });
+    y = ((doc as unknown as ConTabla).lastAutoTable?.finalY ?? y) + 24;
+  }
+
+  doc.save(datos.nombreArchivo);
+}
